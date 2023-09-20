@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Input } from "./Input";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { BsFillClipboardCheckFill } from "react-icons/bs";
+import { IconContext } from "react-icons";
+import colors from "tailwindcss/colors";
+import clsx from "clsx";
 
-export function Body() {
-  const [radius, setRadius] = useState("");
+interface BodyProps {
+  className: string;
+}
+export function Body({ className }: BodyProps) {
   const [topLeftRadius, setTopLeftRadius] = useState("0");
-  const [bottomLeftRadius, setBottompLeftRadius] = useState("0");
+  const [bottomLeftRadius, setBottomLeftRadius] = useState("0");
   const [topRightRadius, setTopRightRadius] = useState("0");
   const [bottomRightRadius, setBottomRightRadius] = useState("0");
 
@@ -18,16 +24,20 @@ export function Body() {
   function handleBorderSet(e: any) {
     e.preventDefault();
     setTopLeftRadius(e.target.value);
-    setBottompLeftRadius(e.target.value);
+    setBottomLeftRadius(e.target.value);
     setTopRightRadius(e.target.value);
     setBottomRightRadius(e.target.value);
   }
 
   return (
-    <div className="w-full ">
-      <div className="w-full flex flex-col items-center justify-center gap-12 px-4">
-        <div className="w-full px-3 flex gap-3 justify-center items-center">
-          <div className="flex flex-col justify-between items-end w-[25%] h-[450px]">
+    <div
+      className={clsx(
+        "w-full flex items-start mt-10 md:mt-0 md:items-center md:justify-center"
+      )}
+    >
+      <div className="w-full flex flex-col items-center justify-center px-4 overflow-hidden">
+        <div className="w-full flex gap-3 justify-center items-center">
+          <div className="flex flex-col justify-between items-end w-[25%] h-[150px] md:w-[25%] md:h-[450px]">
             <div className="">
               <Input
                 autoComplete="false"
@@ -42,13 +52,13 @@ export function Body() {
                 autoComplete="false"
                 placeholder="Ex: 2"
                 value={bottomLeftRadius}
-                onChange={(e) => setBottompLeftRadius(e.target.value)}
+                onChange={(e) => setBottomLeftRadius(e.target.value)}
                 type={"text"}
               />
             </div>
           </div>
           <div
-            className="w-[450px] h-[450px] bg-gray-200 shadow-md"
+            className="w-[150px] h-[150px] md:w-[450px] md:h-[450px] bg-gray-200 shadow-md"
             style={{
               borderRadius: `${topLeftRadius}% ${topRightRadius}% ${bottomRightRadius}% ${bottomLeftRadius}%`,
             }}
@@ -59,11 +69,10 @@ export function Body() {
                   <Tooltip.Trigger>
                     <span
                       id="code"
-                      placeholder="Code"
                       className="w-full text-center font-bold text-gray-900 px-2 cursor-pointer transition-colors duration-200"
                       onClick={handleCopiedToClipboard}
                     >
-                      border-radius: {topLeftRadius}% {topRightRadius}%{" "}
+                      border-radius:{"\n"} {topLeftRadius}% {topRightRadius}%{" "}
                       {bottomRightRadius}% {bottomLeftRadius}%;
                     </span>
                   </Tooltip.Trigger>
@@ -79,7 +88,7 @@ export function Body() {
               </Tooltip.Provider>
             </div>
           </div>
-          <div className="flex flex-col justify-between items-start w-[25%] h-[450px]">
+          <div className="flex flex-col justify-between items-start w-[25%] h-[150px] md:w-[25%] md:h-[450px]">
             <div className="">
               <Input
                 autoComplete="false"
@@ -100,8 +109,68 @@ export function Body() {
             </div>
           </div>
         </div>
-        <div>
-          <h1 className="text-md">{radius}</h1>
+        <div className="md:w-[50%] w-full pt-10 h-full text-gray-100">
+          <div className="bg-slate-800 rounded-lg px-4 py-2 w-full flex flex-col justify-center items-center">
+            <div className="flex w-full items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="w-3 h-3 bg-[#ED6A5E] hover:bg-[#f07b70] rounded-full"
+                />
+                <button
+                  type="button"
+                  className="w-3 h-3 bg-[#F4BF4F] hover:bg-[#f4d591] rounded-full"
+                />
+                <button
+                  type="button"
+                  className="w-3 h-3 bg-[#61C554] hover:bg-[#76e668] rounded-full"
+                />
+              </div>
+              <div>
+                <button onClick={handleCopiedToClipboard}>
+                  <Tooltip.Provider delayDuration={500} skipDelayDuration={500}>
+                    <Tooltip.Root>
+                      <Tooltip.Trigger>
+                        <IconContext.Provider
+                          value={{
+                            color: "#acf100",
+                          }}
+                        >
+                          <div>
+                            <BsFillClipboardCheckFill size={20} />
+                          </div>
+                        </IconContext.Provider>
+                      </Tooltip.Trigger>
+                      <Tooltip.Portal>
+                        <Tooltip.Content side="top" align="center">
+                          <span className="text-xsm text-gray-100 bg-gray-900 px-2 py-1 rounded-md">
+                            Clique para copiar
+                          </span>
+                          <Tooltip.Arrow fill="#212121" />
+                        </Tooltip.Content>
+                      </Tooltip.Portal>
+                    </Tooltip.Root>
+                  </Tooltip.Provider>
+                </button>
+              </div>
+            </div>
+            <div className="w-full">
+              <code className="h-full">
+                <span className="text-yellow-500">.container</span>{" "}
+                <span className="text-teal-400">&#123;</span>
+                <br></br>
+                <span className="pl-4">
+                  <span className="text-teal-400">border-radius:</span>{" "}
+                  <span className="text-yellow-500">
+                    {topLeftRadius}% {topRightRadius}% {bottomRightRadius}%{" "}
+                    {bottomLeftRadius}%<span className="text-teal-400">;</span>
+                  </span>
+                </span>
+                <br></br>
+                <span className="text-teal-400">&#125;</span>
+              </code>
+            </div>
+          </div>
         </div>
       </div>
     </div>
