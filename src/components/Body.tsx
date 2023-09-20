@@ -30,12 +30,8 @@ export function Body({ className }: BodyProps) {
   }
 
   return (
-    <div
-      className={clsx(
-        "w-full flex items-start mt-10 md:mt-0 md:items-center md:justify-center"
-      )}
-    >
-      <div className="w-full flex flex-col items-center justify-center px-4 overflow-hidden">
+    <div className="w-full flex flex-1 items-start mt-10 md:mt-0 md:items-center md:justify-center">
+      <div className="w-full flex flex-col md:flex-row items-center justify-center px-4 overflow-hidden">
         <div className="w-full flex gap-3 justify-center items-center">
           <div className="flex flex-col justify-between items-end w-[25%] h-[150px] md:w-[25%] md:h-[450px]">
             <div className="">
